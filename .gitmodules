@@ -1,0 +1,6 @@
+[submodule "external/trueline"]
+	path = external/trueline
+	url = git@github.com:petobens/trueline.git
+[submodule "external/fasd"]
+	path = external/fasd
+	url = https://github.com/clvv/fasd.git
