@@ -199,3 +199,19 @@ mode "$mode_system" {
 
 bindsym $mod+End mode "$mode_system"
 
+bindsym --release Print exec "scrot -m ~/Pictures/screenshot-%Y-%m-%d-%H-%M-%S.png"
+bindsym --release $mod+Print exec "scrot -u ~/Pictures/screenshot-%Y-%m-%d-%H-%M-%S.png"
+bindsym --release $mod+Shift+Print exec "scrot -s ~/Pictures/screenshot-%Y-%m-%d-%H-%M-%S.png"
+
+# Background image 
+exec_always feh --bg-scale ~/.wallpapers/wallpaper $(~/.dotfiles/scripts/bz-fetch-wallpaper)
+exec --no-startup-id xsetroot -solid "#09111A"
+
+# Disasble title bars
+for_window [class="^.*"] border pixel 0
+
+# Gaps
+gaps inner 10
+
+# Manage x on startup
+exec_always compton --config ~/.dotfiles/config/compton.conf

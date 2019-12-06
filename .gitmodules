@@ -4,3 +4,6 @@
 [submodule "external/fasd"]
 	path = external/fasd
 	url = https://github.com/clvv/fasd.git
+[submodule "external/compton"]
+	path = external/compton
+	url = https://github.com/tryone144/compton.git

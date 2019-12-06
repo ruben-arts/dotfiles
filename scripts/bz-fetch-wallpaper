@@ -1,0 +1,18 @@
+#!/bin/bash
+
+query="nature"
+ratios="16x9"
+resolutions="3840x2160"
+sorting="random"
+
+wallpaper_dir="$HOME/.wallpapers"
+date=$(date +%F)
+
+mkdir -p $wallpaper_dir
+
+# Fetch image information from wallhaven.cc
+read image_id image_url < <(echo $(curl -s "https://wallhaven.cc/api/v1/search?q=$query&ratios=$ratios&resolutions=$resolutions&sorting=$sorting" | jq -r '.data[0].id, .data[0].path'))
+image_extension="${image_url##*.}"
+image_path="$wallpaper_dir/$date-$image_id.$image_extension"
+curl -s -o "$image_path" "$image_url"
+echo $image_path
