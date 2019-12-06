@@ -9,6 +9,7 @@
 #
 # Please see https://i3wm.org/docs/userguide.html for a complete reference!
 
+set $Locker exec ~/.dotfiles/scripts/bz-lock 
 set $mod Mod4
 
 # Font for window titles. Will also be used by the bar unless a different font
@@ -24,7 +25,7 @@ font pango:monospace 8
 
 # xss-lock grabs a logind suspend inhibit lock and will use i3lock to lock the
 # screen before suspend. Use loginctl lock-session to lock your screen.
-exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
+exec --no-startup-id xss-lock --transfer-sleep-lock -- $Locker
 
 # NetworkManager is the most popular way to manage wireless networks on Linux,
 # and nm-applet is a desktop environment-independent system tray GUI for it.
@@ -180,8 +181,6 @@ bar {
         status_command i3status
 }
 
-set $Locker exec ~/.dotfiles/scripts/lock 
-
 ### Power options
 set $mode_system System (l) lock, (e) logout, (s) suspend, (r) reboot, (Shift+s) shutdown
 mode "$mode_system" {
@@ -204,7 +203,7 @@ bindsym --release $mod+Print exec "scrot -u ~/Pictures/screenshot-%Y-%m-%d-%H-%M
 bindsym --release $mod+Shift+Print exec "scrot -s ~/Pictures/screenshot-%Y-%m-%d-%H-%M-%S.png"
 
 # Background image 
-exec_always feh --bg-scale ~/.wallpapers/wallpaper $(~/.dotfiles/scripts/bz-fetch-wallpaper)
+exec_always ~/.dotfiles/scripts/bz-reset-wallpaper
 exec --no-startup-id xsetroot -solid "#09111A"
 
 # Disasble title bars
