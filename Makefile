@@ -14,9 +14,8 @@ feh: update
 fasd:
 	$(MAKE) -C external/fasd install
 	
-i3: i3lock feh
-	mkdir -p ~/.config/i3
-	ln -sf $(BASE_DIR)/config/i3/config ~/.config/i3/config
+i3: update i3lock i3blocks feh
+	sh scripts/install/i3.sh
 
 compton: libconfig asciidoc
 	$(MAKE) -C external/compton install
@@ -27,5 +26,8 @@ libconfig: update
 asciidoc: update
 	apt install -y asciidoc
 
-i3lock: 
+i3lock: update
+	apt install -y --no-install-recommends i3lock
 
+i3blocks: update
+	apt install -y --no-install-recommends i3blocks

@@ -7,3 +7,6 @@
 [submodule "external/compton"]
 	path = external/compton
 	url = https://github.com/tryone144/compton.git
+[submodule "external/i3-gaps"]
+	path = external/i3-gaps
+	url = https://www.github.com/Airblader/i3
