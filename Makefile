@@ -1,6 +1,6 @@
 BASE_DIR := $(realpath ./)
 
-install: fasd i3 jq
+install: fasd i3 jq git-cola
 
 update:
 	apt update
@@ -31,3 +31,6 @@ i3lock: update
 
 i3blocks: update
 	apt install -y --no-install-recommends i3blocks
+
+git-cola: update
+	apt install git-cola
