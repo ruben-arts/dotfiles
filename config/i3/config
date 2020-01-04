@@ -203,7 +203,7 @@ bindsym --release $mod+Shift+Print exec "scrot -s ~/Pictures/screenshot-%Y-%m-%d
 
 # Background image 
 exec --no-startup-id xsetroot -solid "#09111A"
-exec_always --no-startup-id ~/.dotfiles/scripts/bz-reset-wallpaper
+exec_always --no-startup-id ~/.dotfiles/scripts/bz-refresh-wallpaper
 
 # Disasble title bars
 for_window [class="^.*"] border pixel 0

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-~/.dotfiles/scripts/bz-reset-wallpaper &
+~/.dotfiles/scripts/bz-refresh-wallpaper &
 
 lock() {
     i3lock -c 09111A --ignore-empty-password

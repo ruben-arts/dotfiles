@@ -22,3 +22,5 @@ declare -a TRUELINE_SEGMENTS=(
 )
 
 source "$cur_dir/external/trueline/trueline.sh"
+
+export PATH=$PATH:.dotfiles/scripts
