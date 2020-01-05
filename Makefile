@@ -17,7 +17,7 @@ REQUIRED_PACKAGES=asciidoc autoconf automake libconfig-dev libdbus-1-dev libdrm-
  libxcb-icccm4-dev libxcb-keysyms1-dev libxcb-randr0-dev libxcb-shape0-dev libxcb-util0-dev \
  libxcb-xinerama0-dev libxcb-xkb-dev libxcb-xrm-dev libxcb1-dev libxcomposite-dev libxdamage-dev \
  libxfixes-dev libxinerama-dev libxkbcommon-dev libxkbcommon-x11-dev libxrandr-dev libyajl-dev \
- xutils-dev dmenu j4-dmenu-desktop curl feh alacritty
+ xutils-dev dmenu j4-dmenu-desktop curl feh alacritty i3lock i3blocks
 
 #
 # Misc
@@ -29,7 +29,7 @@ $(1): update
 	@if ( $(call is-not-installed,$(1)) ) ; \
 	then \
 		echo "$(INFO_PRINT)Installing $(1)...$(RESET_PRINT)"; \
-		sudo apt install -y $(1); \
+		sudo apt install -y --no-install-recommends $(1); \
 	else \
 		echo "$(VERBOSE_PRINT)$(1) already installed$(RESET_PRINT)"; \
 	fi
@@ -86,10 +86,10 @@ bashrc:
 	 echo "$(INFO_PRINT)Added bash sourcing to .bashrc")
 
 alacritty-config:
-	ln -sf ${HOME}/.dotfiles/config/alacritty ${HOME}/.config/alacritty
+	@ln -sf ${HOME}/.dotfiles/config/alacritty ${HOME}/.config/alacritty
 
 alacritty-apt:
-	sudo add-apt-repository -y ppa:mmstick76/alacritty
+	@sudo add-apt-repository -y ppa:mmstick76/alacritty
 
 alacritty: alacritty-apt alacritty-config	
 
@@ -97,13 +97,14 @@ alacritty: alacritty-apt alacritty-config
 # Sway
 #
 
-sway: update sway-install i3-tools
+sway: sway-install i3-tools
 
-sway-install: update wayland i3-config
-	snap install --beta --devmode sway
+sway-install: wayland i3-config
+	@echo "$(INFO_PRINT)Installing sway...$(RESET_PRINT)" && \
+	sudo snap install --beta --devmode sway
 
 wayland:
-	sed -i 's/#WaylandEnable=false/WaylandEnable=true/' /etc/gdm3/custom.conf
+	@sudo sed -i 's/#WaylandEnable=false/WaylandEnable=true/' /etc/gdm3/custom.conf
 
 #
 # i3
@@ -130,9 +131,7 @@ i3-install: i3-config libxcb-xrm-dev libxcb1-dev libxcb-keysyms1-dev libxcb-shap
 	make && \
 	sudo make install
 
-i3-tools: update dmenu j4-dmenu-desktop curl feh
-	@echo "$(INFO_PRINT)Installing i3 tools...$(RESET_PRINT)" && \
-	sudo apt install -y --no-install-recommends i3lock i3blocks
+i3-tools: update dmenu j4-dmenu-desktop curl feh i3lock i3blocks
 
 compton: libconfig-dev asciidoc libxcomposite-dev libxdamage-dev libxfixes-dev libxrandr-dev libxinerama-dev libdbus-1-dev libdrm-dev libgl1-mesa-dev
 	@sudo $(MAKE) -C external/compton
