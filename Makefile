@@ -135,7 +135,7 @@ i3-tools: update dmenu j4-dmenu-desktop curl feh i3lock i3blocks
 
 picom: /usr/local/bin/picom
 
-/usr/local/bin/picom: meson ninja-build libxext-dev libxcb1-dev libxcb-damage0-dev libxcb-xfixes0-dev libxcb-shape0-dev libxcb-render-util0-dev libxcb-render0-dev libxcb-randr0-dev libxcb-composite0-dev libxcb-image0-dev libxcb-present-dev libxcb-xinerama0-dev libpixman-1-dev libdbus-1-dev libconfig-dev libxdg-basedir-dev libgl1-mesa-dev libpcre2-dev libevdev-dev uthash-dev libevdev2
+/usr/local/bin/picom: external/picom meson ninja-build libxext-dev libxcb1-dev libxcb-damage0-dev libxcb-xfixes0-dev libxcb-shape0-dev libxcb-render-util0-dev libxcb-render0-dev libxcb-randr0-dev libxcb-composite0-dev libxcb-image0-dev libxcb-present-dev libxcb-xinerama0-dev libpixman-1-dev libdbus-1-dev libconfig-dev libxdg-basedir-dev libgl1-mesa-dev libpcre2-dev libevdev-dev uthash-dev libevdev2
 	@mkdir -p /tmp/picom-build && \
 	meson --buildtype=release external/picom /tmp/picom-build && \
 	sudo ninja -C /tmp/picom-build install
@@ -154,7 +154,10 @@ $(eval $(call install-package-template,git-cola))
 # Fonts
 #
 
-fonts:
-	@external/nerd-fonts/install.sh -q && \
+${HOME}/.local/share/fonts/NerdFonts: external/nerd-fonts
+	@echo "$(INFO_PRINT)Installing nerd fonts...$(RESET_PRINT)" && \
+	external/nerd-fonts/install.sh -q --link && \
 	sudo fc-cache -fv
 
+.PHONY: fonts
+fonts: ${HOME}/.local/share/fonts/NerdFonts
