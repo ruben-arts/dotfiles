@@ -1,7 +1,7 @@
 # Inspiration: https://gist.github.com/DerekV/3030284
 
 .PHONY: all
-all: bashrc alacritty fasd i3 jq git-cola fonts
+all: bashrc alacritty fasd i3 jq git-cola fonts code-config
 
 BASE_DIR := $(realpath ./)
 INFO_PRINT := \e[1;32m
@@ -68,6 +68,11 @@ update:
 # 	  echo "dotfiles does not exist, fetching"; \
 # 	  git clone --recursive $(DOTFILES-REPO) $(DOTFILES-DIR); \
 # 	fi
+
+
+code-config:
+	@mkdir -p ${HOME}/.config/Code/User && \
+	ln -sf ${HOME}/.dotfiles/config/code/user/settings.json ${HOME}/.config/Code/User/settings.json
 
 #
 # Terminal
