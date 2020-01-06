@@ -105,7 +105,7 @@ wayland:
 # i3
 #
 
-i3: i3-install i3-tools compton
+i3: i3-install i3-tools picom
 
 i3-config:
 	@echo "$(INFO_PRINT)Installing i3 config...$(RESET_PRINT)" && \
@@ -128,10 +128,12 @@ i3-install: i3-config libxcb-xrm-dev libxcb1-dev libxcb-keysyms1-dev libxcb-shap
 
 i3-tools: update dmenu j4-dmenu-desktop curl feh i3lock i3blocks
 
-compton: meson ninja-build libxext-dev libxcb1-dev libxcb-damage0-dev libxcb-xfixes0-dev libxcb-shape0-dev libxcb-render-util0-dev libxcb-render0-dev libxcb-randr0-dev libxcb-composite0-dev libxcb-image0-dev libxcb-present-dev libxcb-xinerama0-dev libpixman-1-dev libdbus-1-dev libconfig-dev libxdg-basedir-dev libgl1-mesa-dev libpcre2-dev libevdev-dev uthash-dev libevdev2
-	@mkdir -p /tmp/compton-build && \
-	meson --buildtype=release external/compton /tmp/compton-build && \
-	sudo ninja -C /tmp/compton-build install
+picom: /usr/local/bin/picom
+
+/usr/local/bin/picom: meson ninja-build libxext-dev libxcb1-dev libxcb-damage0-dev libxcb-xfixes0-dev libxcb-shape0-dev libxcb-render-util0-dev libxcb-render0-dev libxcb-randr0-dev libxcb-composite0-dev libxcb-image0-dev libxcb-present-dev libxcb-xinerama0-dev libpixman-1-dev libdbus-1-dev libconfig-dev libxdg-basedir-dev libgl1-mesa-dev libpcre2-dev libevdev-dev uthash-dev libevdev2
+	@mkdir -p /tmp/picom-build && \
+	meson --buildtype=release external/picom /tmp/picom-build && \
+	sudo ninja -C /tmp/picom-build install
 
 #
 # Tools

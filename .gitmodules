@@ -5,7 +5,7 @@
 	path = external/fasd
 	url = https://github.com/clvv/fasd.git
 [submodule "external/compton"]
-	path = external/compton
+	path = external/picom
 	url = https://github.com/yshui/picom.git
 [submodule "external/i3-gaps"]
 	path = external/i3-gaps

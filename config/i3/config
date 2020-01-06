@@ -212,7 +212,7 @@ for_window [class="^.*"] border pixel 0
 gaps inner 10
 
 # Manage x on startup
-exec_always compton --config ~/.dotfiles/config/compton.conf
+exec_always picom --config ~/.dotfiles/config/picom.conf --experimental-backend
 
 # Jetbrains IDE
 for_window [class="jetbrains-.*" title="win0"] floating enable border none
