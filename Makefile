@@ -149,22 +149,7 @@ $(eval $(call install-package-template,git-cola))
 # Fonts
 #
 
-FONT_DIR = ~/.local/share/fonts
-NERD_FONT_DIR?=/tmp/nerd_fonts
-
-nerd-fonts:
-	@if [ ! -d $(NERD_FONT_DIR) ] ;\
-	then \
-		echo "$(INFO_PRINT)Checking out Nerd Fonts from github...$(RESET_PRINT)"; \
-		git clone --depth 1 --branch 2.0.0 https://github.com/ryanoasis/nerd-fonts.git $(NERD_FONT_DIR); \
-	fi
-
-$(FONT_DIR)/NerdFonts/Iosevka\ Nerd\ Font\ Complete.ttf: | nerd-fonts
-	@echo "$(INFO_PRINT)Installing Iosevka Nerd Fonts...$(RESET_PRINT)"; \
-	$(NERD_FONT_DIR)/install.sh -q Iosevka
-
-iosevka: $(FONT_DIR)/NerdFonts/Iosevka\ Nerd\ Font\ Complete.ttf
-
-fonts: iosevka
+fonts:
+	@external/nerd-fonts/install.sh -q && \
 	sudo fc-cache -fv
 

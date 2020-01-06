@@ -10,3 +10,7 @@
 [submodule "external/i3-gaps"]
 	path = external/i3-gaps
 	url = https://www.github.com/Airblader/i3
+[submodule "external/nerd-fonts"]
+	path = external/nerd-fonts
+	url = https://github.com/ryanoasis/nerd-fonts.git
+	shallow = true
