@@ -110,7 +110,7 @@ wayland:
 # i3
 #
 
-i3: i3-install i3-install compton
+i3: i3-install i3-tools compton
 
 i3-config:
 	@echo "$(INFO_PRINT)Installing i3 config...$(RESET_PRINT)" && \
