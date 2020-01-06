@@ -12,12 +12,7 @@ RESET_PRINT := \e[0m
 DOTFILES_DIR?=~/.dotfiles
 DOTFILES_REPO?=git@github.com:baszalmstra/dotfiles.git
 
-REQUIRED_PACKAGES=asciidoc autoconf automake libconfig-dev libdbus-1-dev libdrm-dev libev-dev \
- libgl1-mesa-dev libpango1.0-dev libstartup-notification0-dev libtool libxcb-cursor-dev \
- libxcb-icccm4-dev libxcb-keysyms1-dev libxcb-randr0-dev libxcb-shape0-dev libxcb-util0-dev \
- libxcb-xinerama0-dev libxcb-xkb-dev libxcb-xrm-dev libxcb1-dev libxcomposite-dev libxdamage-dev \
- libxfixes-dev libxinerama-dev libxkbcommon-dev libxkbcommon-x11-dev libxrandr-dev libyajl-dev \
- xutils-dev dmenu j4-dmenu-desktop curl feh alacritty i3lock i3blocks
+REQUIRED_PACKAGES=alacritty asciidoc autoconf automake curl dmenu feh i3blocks i3lock j4-dmenu-desktop libconfig-dev libdbus-1-dev libdrm-dev libev-dev libevdev-dev libevdev2 libgl1-mesa-dev libpango1.0-dev libpcre2-dev libpixman-1-dev libstartup-notification0-dev libtool libxcb-composite0-dev libxcb-cursor-dev libxcb-damage0-dev libxcb-icccm4-dev libxcb-image0-dev libxcb-keysyms1-dev libxcb-present-dev libxcb-randr0-dev libxcb-render-util0-dev libxcb-render0-dev libxcb-shape0-dev libxcb-util0-dev libxcb-xfixes0-dev libxcb-xinerama0-dev libxcb-xkb-dev libxcb-xrm-dev libxcb1-dev libxcomposite-dev libxdamage-dev libxdg-basedir-dev libxext-dev libxfixes-dev libxinerama-dev libxkbcommon-dev libxkbcommon-x11-dev libxrandr-dev libyajl-dev meson ninja-build uthash-dev xutils-dev
 
 #
 # Misc
@@ -133,9 +128,10 @@ i3-install: i3-config libxcb-xrm-dev libxcb1-dev libxcb-keysyms1-dev libxcb-shap
 
 i3-tools: update dmenu j4-dmenu-desktop curl feh i3lock i3blocks
 
-compton: libconfig-dev asciidoc libxcomposite-dev libxdamage-dev libxfixes-dev libxrandr-dev libxinerama-dev libdbus-1-dev libdrm-dev libgl1-mesa-dev
-	@sudo $(MAKE) -C external/compton
-	@sudo $(MAKE) -C external/compton install
+compton: meson ninja-build libxext-dev libxcb1-dev libxcb-damage0-dev libxcb-xfixes0-dev libxcb-shape0-dev libxcb-render-util0-dev libxcb-render0-dev libxcb-randr0-dev libxcb-composite0-dev libxcb-image0-dev libxcb-present-dev libxcb-xinerama0-dev libpixman-1-dev libdbus-1-dev libconfig-dev libxdg-basedir-dev libgl1-mesa-dev libpcre2-dev libevdev-dev uthash-dev libevdev2
+	@mkdir -p /tmp/compton-build && \
+	meson --buildtype=release external/compton /tmp/compton-build && \
+	sudo ninja -C /tmp/compton-build install
 
 #
 # Tools
