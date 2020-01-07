@@ -14,3 +14,7 @@
 	path = external/nerd-fonts
 	url = https://github.com/ryanoasis/nerd-fonts.git
 	shallow = true
+[submodule "external/polybar"]
+	path = external/polybar
+	url = https://github.com/polybar/polybar.git
+	shallow = true

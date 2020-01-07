@@ -12,7 +12,7 @@ RESET_PRINT := \e[0m
 DOTFILES_DIR?=~/.dotfiles
 DOTFILES_REPO?=git@github.com:baszalmstra/dotfiles.git
 
-REQUIRED_PACKAGES=alacritty asciidoc autoconf automake curl dmenu feh i3blocks i3lock j4-dmenu-desktop libconfig-dev libdbus-1-dev libdrm-dev libev-dev libevdev-dev libevdev2 libgl1-mesa-dev libpango1.0-dev libpcre2-dev libpixman-1-dev libstartup-notification0-dev libtool libxcb-composite0-dev libxcb-cursor-dev libxcb-damage0-dev libxcb-icccm4-dev libxcb-image0-dev libxcb-keysyms1-dev libxcb-present-dev libxcb-randr0-dev libxcb-render-util0-dev libxcb-render0-dev libxcb-shape0-dev libxcb-util0-dev libxcb-xfixes0-dev libxcb-xinerama0-dev libxcb-xkb-dev libxcb-xrm-dev libxcb1-dev libxcomposite-dev libxdamage-dev libxdg-basedir-dev libxext-dev libxfixes-dev libxinerama-dev libxkbcommon-dev libxkbcommon-x11-dev libxrandr-dev libyajl-dev meson ninja-build uthash-dev xutils-dev
+REQUIRED_PACKAGES=alacritty asciidoc autoconf automake cmake cmake-data curl dmenu feh git i3blocks i3lock j4-dmenu-desktop libasound2-dev libcairo2-dev libconfig-dev libcurl4-openssl-dev libdbus-1-dev libdrm-dev libev-dev libevdev-dev libevdev2 libgl1-mesa-dev libjsoncpp-dev libmpdclient-dev libnl-genl-3-dev libpango1.0-dev libpcre2-dev libpixman-1-dev libpulse-dev libstartup-notification0-dev libtool libxcb-composite0-dev libxcb-cursor-dev libxcb-damage0-dev libxcb-ewmh-dev libxcb-icccm4-dev libxcb-image0-dev libxcb-keysyms1-dev libxcb-present-dev libxcb-randr0-dev libxcb-render-util0-dev libxcb-render0-dev libxcb-shape0-dev libxcb-util0-dev libxcb-xfixes0-dev libxcb-xinerama0-dev libxcb-xkb-dev libxcb-xrm-dev libxcb1-dev libxcomposite-dev libxdamage-dev libxdg-basedir-dev libxext-dev libxfixes-dev libxinerama-dev libxkbcommon-dev libxkbcommon-x11-dev libxrandr-dev libyajl-dev meson ninja-build pkg-config python-xcbgen python3 python3-sphinx uthash-dev xcb-proto xutils-dev
 
 #
 # Misc
@@ -24,7 +24,7 @@ $(1): update
 	@if ( $(call is-not-installed,$(1)) ) ; \
 	then \
 		echo "$(INFO_PRINT)Installing $(1)...$(RESET_PRINT)"; \
-		sudo apt install -y --no-install-recommends $(1); \
+		sudo apt install -qq -y --no-install-recommends $(1); \
 	else \
 		echo "$(VERBOSE_PRINT)$(1) already installed$(RESET_PRINT)"; \
 	fi
@@ -47,7 +47,7 @@ endif
 
 update:
 	@@echo "$(INFO_PRINT)Updating package list...$(RESET_PRINT)"; \
-	sudo apt update -q
+	sudo apt update -qq
 
 # ssh-public-key: ~/.ssh/id_rsa.pub
 # 	@echo "We need an ssh public key"
@@ -85,13 +85,13 @@ bashrc:
 	 echo 'source ~/.dotfiles/setup.bash' >> ~/.bashrc && \
 	 echo "$(INFO_PRINT)Added bash sourcing to .bashrc")
 
-alacritty-config:
+${HOME}/.config/alacritty: ${HOME}/.dotfiles/config/alacritty
 	@ln -sf ${HOME}/.dotfiles/config/alacritty ${HOME}/.config/alacritty
 
 alacritty-apt:
 	@sudo add-apt-repository -y ppa:mmstick76/alacritty
 
-alacritty: alacritty-apt alacritty-config	
+alacritty: alacritty-apt ${HOME}/.config/alacritty
 
 #
 # Sway
@@ -110,17 +110,21 @@ wayland:
 # i3
 #
 
-i3: i3-install i3-tools picom
+.PHONY: i3 i3-dependencies i3-tools picom picom-dependencies
 
-i3-config:
+i3: ${HOME}/.config/i3/config i3-dependencies /usr/bin/i3 i3-tools picom
+
+${HOME}/.config/i3/config: ${HOME}/.dotfiles/config/i3/config
 	@echo "$(INFO_PRINT)Installing i3 config...$(RESET_PRINT)" && \
 	mkdir -p ${HOME}/.config/i3 && \
 	ln -sf ${HOME}/.dotfiles/config/i3/config ${HOME}/.config/i3/config
 
-i3-install: i3-config libxcb-xrm-dev libxcb1-dev libxcb-keysyms1-dev libxcb-shape0-dev \
+i3-dependencies: libxcb-xrm-dev libxcb1-dev libxcb-keysyms1-dev libxcb-shape0-dev \
 	libpango1.0-dev libxcb-util0-dev libxcb-icccm4-dev libyajl-dev libstartup-notification0-dev \
 	libxcb-randr0-dev libev-dev libxcb-cursor-dev libxcb-xinerama0-dev libxcb-xkb-dev libxkbcommon-dev \
 	libxkbcommon-x11-dev autoconf xutils-dev libtool automake
+
+/usr/bin/i3: external/i3-gaps
 	@echo "$(INFO_PRINT)Installing i3...$(RESET_PRINT)" && \
 	cd ${HOME}/.dotfiles/external/i3-gaps && \
 	autoreconf --force --install && \
@@ -133,12 +137,25 @@ i3-install: i3-config libxcb-xrm-dev libxcb1-dev libxcb-keysyms1-dev libxcb-shap
 
 i3-tools: update dmenu j4-dmenu-desktop curl feh i3lock i3blocks
 
-picom: /usr/local/bin/picom
-
-/usr/local/bin/picom: external/picom meson ninja-build libxext-dev libxcb1-dev libxcb-damage0-dev libxcb-xfixes0-dev libxcb-shape0-dev libxcb-render-util0-dev libxcb-render0-dev libxcb-randr0-dev libxcb-composite0-dev libxcb-image0-dev libxcb-present-dev libxcb-xinerama0-dev libpixman-1-dev libdbus-1-dev libconfig-dev libxdg-basedir-dev libgl1-mesa-dev libpcre2-dev libevdev-dev uthash-dev libevdev2
+picom: picom-dependencies /usr/local/bin/picom 
+picom-dependencies: meson ninja-build libxext-dev libxcb1-dev libxcb-damage0-dev libxcb-xfixes0-dev libxcb-shape0-dev libxcb-render-util0-dev libxcb-render0-dev libxcb-randr0-dev libxcb-composite0-dev libxcb-image0-dev libxcb-present-dev libxcb-xinerama0-dev libpixman-1-dev libdbus-1-dev libconfig-dev libxdg-basedir-dev libgl1-mesa-dev libpcre2-dev libevdev-dev uthash-dev libevdev2
+/usr/local/bin/picom: external/picom
 	@mkdir -p /tmp/picom-build && \
 	meson --buildtype=release external/picom /tmp/picom-build && \
 	sudo ninja -C /tmp/picom-build install
+
+#
+# Polybar
+#
+
+polybar: polybar-dependencies /usr/local/bin/polybar
+polybar-dependencies: python3 python3-sphinx pkg-config git cmake cmake-data pkg-config python3-sphinx libcairo2-dev libxcb1-dev libxcb-util0-dev libxcb-randr0-dev libxcb-composite0-dev python-xcbgen xcb-proto libxcb-image0-dev libxcb-ewmh-dev libxcb-icccm4-dev libxcb-xkb-dev libxcb-xrm-dev libxcb-cursor-dev libasound2-dev libpulse-dev libjsoncpp-dev libmpdclient-dev libcurl4-openssl-dev libnl-genl-3-dev
+/usr/local/bin/polybar: external/polybar
+	@mkdir -p /tmp/polybar-build && \
+	cd /tmp/polybar-build && \
+	cmake $(BASE_DIR)/external/polybar && \
+	make -j$$(nproc) && \
+	sudo make install
 
 #
 # Tools
