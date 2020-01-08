@@ -82,10 +82,13 @@ code-config:
 
 .PHONY : bashrc alacritty
 
-bashrc:
+bashrc: ${HOME}/.inputrc
 	@grep -qxF 'source ~/.dotfiles/setup.bash' ~/.bashrc || ( \
 	 echo 'source ~/.dotfiles/setup.bash' >> ~/.bashrc && \
 	 echo "$(INFO_PRINT)Added bash sourcing to .bashrc")
+
+${HOME}/.inputrc: 
+	@ln -sf ${HOME}/.dotfiles/.inputrc ${HOME}/.inputrc
 
 ${HOME}/.config/alacritty: ${HOME}/.dotfiles/config/alacritty
 	@ln -sf ${HOME}/.dotfiles/config/alacritty ${HOME}/.config/alacritty

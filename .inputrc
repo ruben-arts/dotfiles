@@ -1,0 +1,7 @@
+# Rebind normal history iteration to ctrl-up and ctrl-down
+"\e[1;5A": previous-history
+"\e[1;5B": next-history
+
+# Bind smart history search using up and down arrow keys
+"\e[A": history-search-backward
+"\e[B": history-search-forward
