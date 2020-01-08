@@ -1,7 +1,7 @@
 # Inspiration: https://gist.github.com/DerekV/3030284
 
 .PHONY: all
-all: bashrc alacritty fasd i3 jq git-cola fonts code-config
+all: checkplatform git-submodules bashrc fonts alacritty fasd polybar i3 jq git-cola code-config
 
 BASE_DIR := $(realpath ./)
 INFO_PRINT := \e[1;32m
@@ -35,15 +35,17 @@ $(foreach pkg,$(REQUIRED_PACKAGES), $(eval $(call install-package-template,$(pkg
 #
 # Utils
 #
-.PHONY : checkplatform
+.PHONY : checkplatform git-update update
 checkplatform:
-	@echo "$(INFO_PRINT)Installing dotfiles"
 ifneq ($(shell uname),Linux)
 	@echo 'Platform unsupported, only available for Linux'  && exit 1
 endif
 ifeq ($(strip $(shell which apt-get)),)
 	@echo 'apt-get not found, platform not supported' && exit 1
 endif
+
+git-submodules:
+	@git submodule update --init --recursive
 
 update:
 	@@echo "$(INFO_PRINT)Updating package list...$(RESET_PRINT)"; \
