@@ -85,10 +85,11 @@ code-config:
 bashrc: ${HOME}/.inputrc
 	@grep -qxF 'source ~/.dotfiles/setup.bash' ~/.bashrc || ( \
 	 echo 'source ~/.dotfiles/setup.bash' >> ~/.bashrc && \
-	 echo "$(INFO_PRINT)Added bash sourcing to .bashrc")
+	 echo "$(INFO_PRINT)Added bash sourcing to .bashrc$(RESET_PRINT)")
 
 ${HOME}/.inputrc: 
-	@ln -sf ${HOME}/.dotfiles/.inputrc ${HOME}/.inputrc
+	@echo "$(INFO_PRINT)Installing .inputc...$(RESET_PRINT)" && \
+	ln -sf ${HOME}/.dotfiles/.inputrc ${HOME}/.inputrc
 
 ${HOME}/.config/alacritty: ${HOME}/.dotfiles/config/alacritty
 	@ln -sf ${HOME}/.dotfiles/config/alacritty ${HOME}/.config/alacritty
