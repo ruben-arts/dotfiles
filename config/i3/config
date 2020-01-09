@@ -211,7 +211,7 @@ exec_always --no-startup-id ~/.dotfiles/scripts/bz-refresh-wallpaper
 for_window [class="^.*"] border pixel 0
 
 # Gaps
-gaps inner 10
+gaps inner 5
 
 # Manage x on startup
 exec_always picom --config ~/.dotfiles/config/picom.conf --experimental-backend
