@@ -220,6 +220,12 @@ for_window [class="^.*"] border pixel 0
 # Gaps
 gaps inner 5
 
+# Only enable gaps on a workspace when there is at least one container
+smart_gaps on
+
+# Only enable outer gaps when there is exactly one container
+#smart_gaps inverse_outer
+
 # Manage x on startup
 exec_always picom --config ~/.dotfiles/config/picom.conf --experimental-backend
 
