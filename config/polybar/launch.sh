@@ -26,3 +26,6 @@
     disown
   done
 ) 200>/var/tmp/polybar-launch.lock
+
+#!/bin/sh
+

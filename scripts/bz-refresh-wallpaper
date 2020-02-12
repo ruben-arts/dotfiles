@@ -1,3 +1,12 @@
 #!/bin/bash
 
-feh --bg-scale $(~/.dotfiles/scripts/bz-fetch-wallpaper)
+monitor_count=
+
+wallpapers=$(
+    xrandr | grep ' connected' | while read monitor ; do
+        ~/.dotfiles/scripts/bz-fetch-wallpaper &
+    done
+    wait
+)
+
+feh --bg-scale $wallpapers
