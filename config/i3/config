@@ -29,7 +29,7 @@ exec --no-startup-id xss-lock --transfer-sleep-lock -- $Locker
 
 # NetworkManager is the most popular way to manage wireless networks on Linux,
 # and nm-applet is a desktop environment-independent system tray GUI for it.
-exec --no-startup-id nm-applet
+# exec --no-startup-id nm-applet
 
 # Use pactl to adjust volume in PulseAudio.
 set $refresh_i3status killall -SIGUSR1 i3status
@@ -210,12 +210,9 @@ bindsym --release Print exec "scrot -m ~/Pictures/screenshot-%Y-%m-%d-%H-%M-%S.p
 bindsym --release $mod+Print exec "scrot -u ~/Pictures/screenshot-%Y-%m-%d-%H-%M-%S.png"
 bindsym --release $mod+Shift+Print exec "scrot -s ~/Pictures/screenshot-%Y-%m-%d-%H-%M-%S.png"
 
-# Background image 
-exec --no-startup-id xsetroot -solid "#09111A"
-exec_always --no-startup-id ~/.dotfiles/scripts/bz-refresh-wallpaper
-
 # Disasble title bars
 for_window [class="^.*"] border pixel 0
+hide_edge_borders both
 
 # Gaps
 gaps inner 5
@@ -227,7 +224,11 @@ smart_gaps on
 #smart_gaps inverse_outer
 
 # Manage x on startup
-exec_always picom --config ~/.dotfiles/config/picom.conf --experimental-backend
+exec_always --no-startup-id ~/.dotfiles/config/rofi/picom.sh
+
+# Background image 
+exec --no-startup-id xsetroot -solid "#09111A"
+exec_always --no-startup-id autorandr --change
 
 # Jetbrains IDE
 for_window [class="jetbrains-.*" title="win0"] floating enable border none

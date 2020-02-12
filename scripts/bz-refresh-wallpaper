@@ -9,4 +9,4 @@ wallpapers=$(
     wait
 )
 
-feh --bg-scale $wallpapers
+feh --no-fehbg --bg-scale $wallpapers
