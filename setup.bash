@@ -1,13 +1,5 @@
 cur_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-# FASD
-fasd_cache="$HOME/.fasd-init-bash"
-if [ "$(command -v fasd)" -nt "$fasd_cache" -o ! -s "$fasd_cache" ]; then
-  fasd --init posix-alias bash-hook bash-ccomp bash-ccomp-install >| "$fasd_cache"
-fi
-source "$fasd_cache"
-unset fasd_cache
-
 # Trueline PS1
 declare -a TRUELINE_SEGMENTS=(
 	'user,black,white,bold'
@@ -15,8 +7,9 @@ declare -a TRUELINE_SEGMENTS=(
         'git,grey,special_grey,normal'
         'working_dir,mono,cursor_grey,normal'
         'read_only,black,orange,bold'
-        'bg_jobs,black,orange,bold'
         'exit_status,black,red,bold'
+        #'bg_jobs,black,orange,bold'
+        
         #'newline,black,orange,bold'
 	'newline,white,black,bold'
 )
@@ -24,3 +17,14 @@ declare -a TRUELINE_SEGMENTS=(
 source "$cur_dir/external/trueline/trueline.sh"
 
 export PATH=$PATH:~/.dotfiles/scripts
+
+# FASD
+{ if [ "$ZSH_VERSION" ] && compctl; then # zsh
+    eval "$(fasd --init posix-alias zsh-hook zsh-ccomp zsh-ccomp-install \
+      zsh-wcomp zsh-wcomp-install)"
+  elif [ "$BASH_VERSION" ] && complete; then # bash
+    eval "$(fasd --init posix-alias bash-hook bash-ccomp bash-ccomp-install)"
+  else # posix shell
+    eval "$(fasd --init posix-alias posix-hook)"
+  fi
+} >> "/dev/null" 2>&1

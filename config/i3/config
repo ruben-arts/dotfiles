@@ -228,7 +228,7 @@ exec_always --no-startup-id ~/.dotfiles/config/rofi/picom.sh
 
 # Background image 
 exec --no-startup-id xsetroot -solid "#09111A"
-exec_always --no-startup-id autorandr --change
+exec_always --no-startup-id autorandr --change --force
 
 # Jetbrains IDE
 for_window [class="jetbrains-.*" title="win0"] floating enable border none

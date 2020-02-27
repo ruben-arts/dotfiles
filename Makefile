@@ -1,7 +1,7 @@
 # Inspiration: https://gist.github.com/DerekV/3030284
 
 .PHONY: all
-all: checkplatform git-submodules bashrc fonts alacritty fasd pulseaudio polybar i3 jq git-cola code-config
+all: checkplatform git-submodules bashrc fonts alacritty fasd pulseaudio polybar i3 autorandr jq git-cola code-config
 
 BASE_DIR := $(realpath ./)
 INFO_PRINT := \e[1;32m
