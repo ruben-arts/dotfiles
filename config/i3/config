@@ -107,6 +107,10 @@ bindsym $mod+a focus parent
 # focus the child container
 #bindsym $mod+d focus child
 
+# scratchpad
+bindsym $mod+Shift+o move scratchpad
+bindsym $mod+o scratchpad show
+
 # Define names for default workspaces for which we configure key bindings later on.
 # We use variables to avoid repeating the names in multiple places.
 set $ws1 "1"
@@ -250,3 +254,4 @@ for_window [class="jetbrains-.*" title="win0"] floating enable border none
 for_window [title="Bluetooth Devices"] floating enable
 
 for_window [class="slack"] move to workspace $ws10
+for_window [class="zoom" instance="zoom"] floating enable
