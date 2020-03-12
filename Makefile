@@ -1,7 +1,7 @@
 # Inspiration: https://gist.github.com/DerekV/3030284
 
 .PHONY: all
-all: checkplatform git-submodules bashrc fonts alacritty fasd pulseaudio pavucontrol blueman polybar i3 autorandr jq git-cola code-config arandr tmux
+all: checkplatform git-submodules bashrc fonts alacritty fasd pulseaudio pavucontrol blueman polybar dunst i3 autorandr jq git-cola code-config arandr tmux
 
 BASE_DIR := $(realpath ./)
 INFO_PRINT := \e[1;32m
@@ -12,7 +12,7 @@ RESET_PRINT := \e[0m
 DOTFILES_DIR?=~/.dotfiles
 DOTFILES_REPO?=git@github.com:baszalmstra/dotfiles.git
 
-REQUIRED_PACKAGES=mpd pulseaudio pavucontrol blueman jq git-color arandr rofi tmux alacritty asciidoc autoconf automake cmake cmake-data curl feh git i3blocks i3lock libasound2-dev libcairo2-dev libconfig-dev libcurl4-openssl-dev libdbus-1-dev libdrm-dev libev-dev libevdev-dev libevdev2 libgl1-mesa-dev libjsoncpp-dev libmpdclient-dev libnl-genl-3-dev libpango1.0-dev libpcre2-dev libpixman-1-dev libpulse-dev libstartup-notification0-dev libtool libxcb-composite0-dev libxcb-cursor-dev libxcb-damage0-dev libxcb-ewmh-dev libxcb-icccm4-dev libxcb-image0-dev libxcb-keysyms1-dev libxcb-present-dev libxcb-randr0-dev libxcb-render-util0-dev libxcb-render0-dev libxcb-shape0-dev libxcb-util0-dev libxcb-xfixes0-dev libxcb-xinerama0-dev libxcb-xkb-dev libxcb-xrm-dev libxcb1-dev libxcomposite-dev libxdamage-dev libxdg-basedir-dev libxext-dev libxfixes-dev libxinerama-dev libxkbcommon-dev libxkbcommon-x11-dev libxrandr-dev libyajl-dev meson ninja-build pkg-config python-xcbgen python3 python3-sphinx uthash-dev xcb-proto xutils-dev python python-dbus autorandr git-cola
+REQUIRED_PACKAGES=mpd pulseaudio pavucontrol blueman jq git-color arandr rofi tmux alacritty asciidoc autoconf automake cmake cmake-data curl feh git i3blocks i3lock libasound2-dev libcairo2-dev libconfig-dev libcurl4-openssl-dev libdbus-1-dev libdrm-dev libev-dev libevdev-dev libevdev2 libgl1-mesa-dev libjsoncpp-dev libmpdclient-dev libnl-genl-3-dev libpango1.0-dev libpcre2-dev libpixman-1-dev libpulse-dev libstartup-notification0-dev libtool libxcb-composite0-dev libxcb-cursor-dev libxcb-damage0-dev libxcb-ewmh-dev libxcb-icccm4-dev libxcb-image0-dev libxcb-keysyms1-dev libxcb-present-dev libxcb-randr0-dev libxcb-render-util0-dev libxcb-render0-dev libxcb-shape0-dev libxcb-util0-dev libxcb-xfixes0-dev libxcb-xinerama0-dev libxcb-xkb-dev libxcb-xrm-dev libxcb1-dev libxcomposite-dev libxdamage-dev libxdg-basedir-dev libxext-dev libxfixes-dev libxinerama-dev libxkbcommon-dev libxkbcommon-x11-dev libxrandr-dev libyajl-dev meson ninja-build pkg-config python-xcbgen python3 python3-sphinx uthash-dev xcb-proto xutils-dev python python-dbus autorandr git-cola libx11-dev libxss-dev libglib2.0-dev libgtk-3-dev
 
 #
 # Misc
@@ -180,6 +180,23 @@ polybar-dependencies: i3 mpd python3 python3-sphinx pkg-config git cmake cmake-d
 	cmake $(BASE_DIR)/external/polybar && \
 	make -j$$(nproc) && \
 	sudo make install
+
+#
+# Dunst
+#
+
+.PHONY: dunst dunst-dependencies dunst-config
+dunst: dunst-dependencies dunst-config /usr/local/bin/dunst
+dunst-dependencies: libdbus-1-dev libx11-dev libxinerama-dev libxrandr-dev libxss-dev libglib2.0-dev libpango1.0-dev libgtk-3-dev libxdg-basedir-dev
+dunst-config: ${HOME}/.config/dunst/dunstrc
+${HOME}/.config/dunst/dunstrc: 
+	@mkdir -p ${HOME}/.config/dunst && \
+	ln -sf ${HOME}/.dotfiles/config/dunst/dunstrc ${HOME}/.config/dunst/dunstrc
+/usr/local/bin/dunst: external/dunst
+	@cd external/dunst && \
+	make -j$$(nproc) && \
+	sudo make install
+
 
 #
 # Tools

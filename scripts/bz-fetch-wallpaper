@@ -2,7 +2,7 @@
 
 query="nature"
 ratios="16x9"
-resolutions="3840x2160"
+resolutions="1920x1080"
 sorting="random"
 
 wallpaper_dir="$HOME/.wallpapers"
