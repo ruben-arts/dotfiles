@@ -255,3 +255,5 @@ for_window [title="Bluetooth Devices"] floating enable
 
 for_window [class="slack"] move to workspace $ws10
 for_window [class="zoom" instance="zoom"] floating enable
+for_window [title="Microsoft Teams Notification"] floating enable
+

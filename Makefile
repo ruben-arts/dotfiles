@@ -1,7 +1,7 @@
 # Inspiration: https://gist.github.com/DerekV/3030284
 
 .PHONY: all
-all: checkplatform git-submodules bashrc fonts alacritty fasd pulseaudio pavucontrol blueman polybar dunst i3 autorandr jq git-cola code-config arandr tmux
+all: checkplatform git-submodules bashrc fonts alacritty zoxide pulseaudio pavucontrol blueman polybar dunst i3 autorandr jq git-cola code-config arandr tmux
 
 BASE_DIR := $(realpath ./)
 INFO_PRINT := \e[1;32m
@@ -202,8 +202,11 @@ ${HOME}/.config/dunst/dunstrc:
 # Tools
 #
 
-fasd:
-	sudo $(MAKE) -C external/fasd install
+
+zoxide: /usr/local/bin/zoxide
+
+/usr/local/bin/zoxide:
+	curl --proto '=https' --tlsv1.2 -sSf https://raw.githubusercontent.com/ajeetdsouza/zoxide/master/install.sh | sh
 
 #
 # Fonts
