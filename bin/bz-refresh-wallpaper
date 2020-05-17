@@ -4,7 +4,7 @@ monitor_count=
 
 wallpapers=$(
     xrandr | grep ' connected' | while read monitor ; do
-        ~/.dotfiles/scripts/bz-fetch-wallpaper &
+        ~/.dotfiles/bin/bz-fetch-wallpaper &
     done
     wait
 )
