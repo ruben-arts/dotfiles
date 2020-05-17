@@ -16,7 +16,7 @@ declare -a TRUELINE_SEGMENTS=(
 
 source "$cur_dir/external/trueline/trueline.sh"
 
-export PATH=$PATH:~/.dotfiles/scripts
+export PATH=$PATH:~/.dotfiles/bin
 
 # zoxide
 eval "$(zoxide init bash)"
