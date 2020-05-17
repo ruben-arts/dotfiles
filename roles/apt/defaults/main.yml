@@ -1,0 +1,12 @@
+package_upgrade: yes
+packages:
+  - ansible
+  - alacritty
+  - pulseaudio
+  - pavucontrol
+  - blueman
+  - jq
+
+remove_packages:
+ - gnome-shell-extension-ubuntu-dock
+ - firefox # Is installed as a snap package

@@ -1,0 +1,6 @@
+dotfiles_user_home: "{{ '~' | expanduser }}"
+dotfiles_home: "{{ dotfiles_user_home }}/.dotfiles"
+
+full_name: Bas Zalmstra
+git_user: baszalmstra
+git_email: bzalmstra@smart-robotics.nl

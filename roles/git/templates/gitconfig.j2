@@ -1,0 +1,19 @@
+[user]
+	email = {{ git_email }}
+	name = {{ full_name }}
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
+[core]
+    pager = delta --plus-color="#012800" --minus-color="#340001"
+
+[interactive]
+    diffFilter = delta --color-only
+    
+[github]
+    user = {{ git_user }}
+
+[core]
+    editor = vim
