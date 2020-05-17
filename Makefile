@@ -12,7 +12,7 @@ RESET_PRINT := \e[0m
 DOTFILES_DIR?=~/.dotfiles
 DOTFILES_REPO?=git@github.com:baszalmstra/dotfiles.git
 
-REQUIRED_PACKAGES=mpd pulseaudio pavucontrol blueman jq git-color arandr rofi tmux alacritty asciidoc autoconf automake cmake cmake-data curl feh git i3blocks i3lock libasound2-dev libcairo2-dev libconfig-dev libcurl4-openssl-dev libdbus-1-dev libdrm-dev libev-dev libevdev-dev libevdev2 libgl1-mesa-dev libjsoncpp-dev libmpdclient-dev libnl-genl-3-dev libpango1.0-dev libpcre2-dev libpixman-1-dev libpulse-dev libstartup-notification0-dev libtool libxcb-composite0-dev libxcb-cursor-dev libxcb-damage0-dev libxcb-ewmh-dev libxcb-icccm4-dev libxcb-image0-dev libxcb-keysyms1-dev libxcb-present-dev libxcb-randr0-dev libxcb-render-util0-dev libxcb-render0-dev libxcb-shape0-dev libxcb-util0-dev libxcb-xfixes0-dev libxcb-xinerama0-dev libxcb-xkb-dev libxcb-xrm-dev libxcb1-dev libxcomposite-dev libxdamage-dev libxdg-basedir-dev libxext-dev libxfixes-dev libxinerama-dev libxkbcommon-dev libxkbcommon-x11-dev libxrandr-dev libyajl-dev meson ninja-build pkg-config python-xcbgen python3 python3-sphinx uthash-dev xcb-proto xutils-dev python python-dbus autorandr libx11-dev libxss-dev libglib2.0-dev libgtk-3-dev
+REQUIRED_PACKAGES=libarchive-tools mpd pulseaudio pavucontrol blueman jq git-color arandr rofi tmux alacritty asciidoc autoconf automake cmake cmake-data curl feh git i3blocks i3lock libasound2-dev libcairo2-dev libconfig-dev libcurl4-openssl-dev libdbus-1-dev libdrm-dev libev-dev libevdev-dev libevdev2 libgl1-mesa-dev libjsoncpp-dev libmpdclient-dev libnl-genl-3-dev libpango1.0-dev libpcre2-dev libpixman-1-dev libpulse-dev libstartup-notification0-dev libtool libxcb-composite0-dev libxcb-cursor-dev libxcb-damage0-dev libxcb-ewmh-dev libxcb-icccm4-dev libxcb-image0-dev libxcb-keysyms1-dev libxcb-present-dev libxcb-randr0-dev libxcb-render-util0-dev libxcb-render0-dev libxcb-shape0-dev libxcb-util0-dev libxcb-xfixes0-dev libxcb-xinerama0-dev libxcb-xkb-dev libxcb-xrm-dev libxcb1-dev libxcomposite-dev libxdamage-dev libxdg-basedir-dev libxext-dev libxfixes-dev libxinerama-dev libxkbcommon-dev libxkbcommon-x11-dev libxrandr-dev libyajl-dev meson ninja-build pkg-config python-xcbgen python3 python3-sphinx uthash-dev xcb-proto xutils-dev python python-dbus autorandr libx11-dev libxss-dev libglib2.0-dev libgtk-3-dev
 
 #
 # Misc
@@ -208,20 +208,20 @@ zoxide: /usr/local/bin/zoxide
 /usr/local/bin/zoxide:
 	curl --proto '=https' --tlsv1.2 -sSf https://raw.githubusercontent.com/ajeetdsouza/zoxide/master/install.sh | sh
 
-bat: /usr/bin/bat
-/usr/local/bin/bat: /tmp/bat_0.15.0_amd64.deb
-	dpkg -i /tmp/bat_0.15.0_amd64.deb
+bat: /usr/local/bin/bat
+/usr/local/bin/bat: /tmp/bat_0.15.1_amd64.deb
+	sudo dpkg -i /tmp/bat_0.15.1_amd64.deb
 
-/tmp/bat_0.15.0_amd64.deb:
-	wget -O /tmp/bat_0.15.0_amd64.deb https://github.com/sharkdp/bat/releases/download/v0.15.0/bat_0.15.0_amd64.deb
+/tmp/bat_0.15.1_amd64.deb:
+	wget -O /tmp/bat_0.15.1_amd64.deb https://github.com/sharkdp/bat/releases/download/v0.15.1/bat_0.15.1_amd64.deb
 
 delta: /usr/local/bin/delta ~/.gitconfig
 
 /usr/local/bin/delta: /tmp/delta-0.1.1-x86_64-unknown-linux-gnu/delta
-	cp /tmp/delta-0.1.1-x86_64-unknown-linux-gnu/delta /usr/local/bin/
+	sudo cp /tmp/delta-0.1.1-x86_64-unknown-linux-gnu/delta /usr/local/bin/
 
-/tmp/delta-0.1.1-x86_64-unknown-linux-gnu/delta:
-	cd /tmp &&
+/tmp/delta-0.1.1-x86_64-unknown-linux-gnu/delta: libarchive-tools
+	cd /tmp && \
 	wget -qO- https://github.com/dandavison/delta/releases/download/0.1.1/delta-0.1.1-x86_64-unknown-linux-gnu.tar.gz | bsdtar -xvf-
 
 ~/.gitconfig:
