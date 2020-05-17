@@ -1,0 +1,6 @@
+
+- name: Install vim with apt
+  apt: name=neovim state=present
+  become: yes
+  become_user: root
+  become_method: sudo

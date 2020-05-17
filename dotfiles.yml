@@ -10,3 +10,9 @@
     - role: snap
       tags:
         - snap
+    - role: vim
+      tags:
+        - vim
+    - role: alacritty
+      tags:
+        - alacritty

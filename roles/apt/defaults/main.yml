@@ -1,7 +1,6 @@
 package_upgrade: yes
 packages:
   - ansible
-  - alacritty
   - pulseaudio
   - pavucontrol
   - blueman
