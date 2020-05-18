@@ -1,4 +1,0 @@
-#!/bin/bash
-
-. ~/.dotfiles/config/polybar/launch.sh &
-. ~/.dotfiles/bin/bz-refresh-wallpaper &

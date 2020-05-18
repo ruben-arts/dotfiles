@@ -86,56 +86,10 @@ ${HOME}/.inputrc:
 	ln -sf ${HOME}/.dotfiles/.inputrc ${HOME}/.inputrc
 
 #
-# Sway
-#
-
-sway: sway-install i3-tools
-
-sway-install: wayland i3-config
-	@echo "$(INFO_PRINT)Installing sway...$(RESET_PRINT)" && \
-	sudo snap install --beta --devmode sway
-
-wayland:
-	@sudo sed -i 's/#WaylandEnable=false/WaylandEnable=true/' /etc/gdm3/custom.conf
-
-#
 # i3
 #
 
-.PHONY: i3 i3-dependencies i3-tools picom picom-dependencies
-
-i3: ${HOME}/.config/i3/config i3-dependencies /usr/bin/i3 i3-tools picom
-
-${HOME}/.config/i3/config: ${HOME}/.dotfiles/config/i3/config
-	@echo "$(INFO_PRINT)Installing i3 config...$(RESET_PRINT)" && \
-	mkdir -p ${HOME}/.config/i3 && \
-	ln -sf ${HOME}/.dotfiles/config/i3/config ${HOME}/.config/i3/config
-
-i3-dependencies: libxcb-xrm-dev libxcb1-dev libxcb-keysyms1-dev libxcb-shape0-dev \
-	libpango1.0-dev libxcb-util0-dev libxcb-icccm4-dev libyajl-dev libstartup-notification0-dev \
-	libxcb-randr0-dev libev-dev libxcb-cursor-dev libxcb-xinerama0-dev libxcb-xkb-dev libxkbcommon-dev \
-	libxkbcommon-x11-dev autoconf xutils-dev libtool automake
-
-/usr/bin/i3: external/i3-gaps
-	@echo "$(INFO_PRINT)Installing i3...$(RESET_PRINT)" && \
-	cd ${HOME}/.dotfiles/external/i3-gaps && \
-	autoreconf --force --install && \
-	mkdir -p /tmp/i3-gaps-build && \
-	cd /tmp/i3-gaps-build && \
-	${HOME}/.dotfiles/external/i3-gaps/configure \
-		--prefix=/usr --sysconfdir=/etc && \
-	make && \
-	sudo make install
-
-i3-tools: update curl feh i3lock i3blocks rofi-config rofi
-
-rofi-config: ${HOME}/.config/rofi/config.rasi
-
-${HOME}/.config/rofi/config.rasi:
-	@echo "$(INFO_PRINT)Installing rofi config...$(RESET_PRINT)" && \
-	mkdir -p ${HOME}/.config/rofi && \
-	rm -f ${HOME}/.config/rofi/* && \
-	ln -sf ${HOME}/.dotfiles/config/rofi/config.rasi ${HOME}/.config/rofi/config.rasi
+.PHONY: picom picom-dependencies
 
 picom: picom-dependencies /usr/local/bin/picom 
 picom-dependencies: meson ninja-build libxext-dev libxcb1-dev libxcb-damage0-dev libxcb-xfixes0-dev libxcb-shape0-dev libxcb-render-util0-dev libxcb-render0-dev libxcb-randr0-dev libxcb-composite0-dev libxcb-image0-dev libxcb-present-dev libxcb-xinerama0-dev libpixman-1-dev libdbus-1-dev libconfig-dev libxdg-basedir-dev libgl1-mesa-dev libpcre2-dev libevdev-dev uthash-dev libevdev2
@@ -185,13 +139,6 @@ zoxide: /usr/local/bin/zoxide
 /usr/local/bin/zoxide:
 	curl --proto '=https' --tlsv1.2 -sSf https://raw.githubusercontent.com/ajeetdsouza/zoxide/master/install.sh | sh
 
-bat: /usr/local/bin/bat
-/usr/local/bin/bat: /tmp/bat_0.15.1_amd64.deb
-	sudo dpkg -i /tmp/bat_0.15.1_amd64.deb
-
-/tmp/bat_0.15.1_amd64.deb:
-	wget -O /tmp/bat_0.15.1_amd64.deb https://github.com/sharkdp/bat/releases/download/v0.15.1/bat_0.15.1_amd64.deb
-
 delta: /usr/local/bin/delta ~/.gitconfig
 
 /usr/local/bin/delta: /tmp/delta-0.1.1-x86_64-unknown-linux-gnu/delta
@@ -200,9 +147,6 @@ delta: /usr/local/bin/delta ~/.gitconfig
 /tmp/delta-0.1.1-x86_64-unknown-linux-gnu/delta: libarchive-tools
 	cd /tmp && \
 	wget -qO- https://github.com/dandavison/delta/releases/download/0.1.1/delta-0.1.1-x86_64-unknown-linux-gnu.tar.gz | bsdtar -xvf-
-
-~/.gitconfig:
-	ln -s ~/.dotfiles/config/.gitconfig ~/.gitconfig
 
 #
 # Fonts

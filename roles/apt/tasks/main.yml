@@ -9,6 +9,12 @@
 - name: Install apt packages
   apt:
     name: "{{ item }}"
+    autoclean: True
+    autoremove: True
+    force_apt_get: True
+    update_cache: True
+    cache_valid_time: 3600
+    install_recommends: False
   become: yes
   become_user: root
   become_method: sudo

@@ -1,0 +1,61 @@
+---
+
+- name: Install apt packages
+  apt:
+    name: "{{ i3_gaps_shared_packages + i3_gaps_build_dependencies }}"
+    autoclean: True
+    autoremove: True
+    force_apt_get: True
+    update_cache: True
+    cache_valid_time: 3600
+    install_recommends: False
+  become: yes
+  become_user: root
+  become_method: sudo
+
+- name: Ensure git parent path exists
+  file:
+    path: "{{ i3_gaps_git_path | dirname }}"
+    state: directory
+    mode: 0755
+
+- name: Fetch i3-gaps latest version
+  shell: |
+    curl https://github.com/Airblader/i3/releases 2>/dev/null \
+    | grep -E '/Airblader/i3/releases/tag/[.0-9]+' \
+    | grep -Eo '[.0-9]+' \
+    | sort -V \
+    | tail -1
+  args:
+    warn: false
+  register: i3_gaps_release_tag
+  check_mode: False
+  changed_when: False
+
+- name: Ensure i3-gaps is cloned
+  git:
+    repo: "{{ i3_gaps_git_url }}"
+    dest: "{{ i3_gaps_git_path }}"
+    version: "{{ i3_gaps_release_tag.stdout }}"
+    clone: True
+    force: True
+    recursive: True
+    update: True
+    depth: 1
+  notify:
+    - autoreconf i3-gaps
+    - configure i3-gaps
+    - compile i3-gaps
+    - install i3-gaps
+
+- name: Create i3 config directory
+  file:
+    path: "~/.config/i3"
+    state: directory
+    mode: "0755"
+
+- name: Symlink i3 config
+  file:
+    src: "{{ dotfiles_home }}/roles/i3/files/i3.conf"
+    dest: "~/.config/i3/config"
+    state: link
