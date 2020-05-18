@@ -1,0 +1,19 @@
+- name: Install Visual Studio Code
+  snap:
+    name: code
+    classic: yes
+  become: yes
+  become_user: root
+  become_method: sudo
+
+- name: Create Visual Studio Code config directory
+  file:
+    path: "~/.config/Code/User"
+    state: directory
+    mode: "0755"
+
+- name: Symlink Visual Studio Code config to Code/User/settings.json
+  file:
+    src: "{{ dotfiles_home }}/roles/code/files/settings.json"
+    dest: "~/.config/Code/User/settings.json"
+    state: link

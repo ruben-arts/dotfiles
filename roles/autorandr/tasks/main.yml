@@ -1,0 +1,19 @@
+- name: Install autorandr
+  apt: name=autorandr state=present
+  become: yes
+  become_user: root
+  become_method: sudo
+
+- name: Create autorandr config directory
+  file:
+    path: "{{dotfiles_user_home}}/.config/autorandr"
+    state: directory
+    mode: "0755"
+
+- name: Make sure postswitch is up to date
+  template:
+    src: "postswitch.j2"
+    dest: "{{dotfiles_user_home}}/.config/autorandr/postswitch"
+
+- name: Changing perm of postswitch, adding "+x"
+  file: dest="{{dotfiles_user_home}}/.config/autorandr/postswitch" mode=a+x
