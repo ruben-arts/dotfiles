@@ -58,5 +58,6 @@
     "workbench.colorTheme": "One Monokai",
     "window.zoomLevel": 3,
     "workbench.iconTheme": "vscode-icons",
-    "vsicons.dontShowNewVersionMessage": true
+    "vsicons.dontShowNewVersionMessage": true,
+    "files.insertFinalNewline": true
 }
