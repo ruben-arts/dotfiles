@@ -1,0 +1,3 @@
+fzf_os: linux
+fzf_arch: "{% if '64' in ansible_architecture %}amd64{% else %}386{% endif %}"
+fzf_url: "https://github.com/junegunn/fzf-bin/releases/download/{{ fzf_version }}/fzf-{{ fzf_version }}-{{ fzf_os }}_{{ fzf_arch }}.tgz"

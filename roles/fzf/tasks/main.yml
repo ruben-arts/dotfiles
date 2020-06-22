@@ -1,0 +1,15 @@
+- name: Check fzf installed
+  command: which fzf
+  changed_when: false
+  failed_when: false
+  check_mode: no
+  register: register_fzf_command
+
+- name: "Download fzf to /usr/local/bin"
+  unarchive:
+    src: "{{ fzf_url }}"
+    dest: /usr/local/bin
+    remote_src: yes
+    creates: "/usr/local/bin/fzf"
+  when: register_fzf_command.rc == 1
+  become: true
