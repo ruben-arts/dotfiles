@@ -1,6 +1,6 @@
 #!/bin/bash
 
-query="nature"
+query="abstract, minimalist"
 resolutions=$(~/.dotfiles/scripts/bz-monitor-largest-resolution)
 sorting="random"
 categories="100"
